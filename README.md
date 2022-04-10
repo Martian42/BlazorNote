@@ -7,6 +7,8 @@
 [Create the app](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/create)
 
 ### Basic syntax
+`@` symbol is used in Razor files to indicate the start of C# code.
+
 `@code` directive to add multiple line of codes enclosed by parentheses.
 
 `@Page` directive is a special markup that identifies a component as a page. Use this directive to specify a route. i.e. `@Page "/todo"`
@@ -46,7 +48,8 @@ To apply this default layout, look at the `<Router>` component in `App.razor`. N
  
  ## Useful example
 ### A list of cards using `foreach` loop
-> <div class="main">
+```
+<div class="main">
     <ul class="pizza-cards">
         @if (specials != null)
         {
@@ -63,5 +66,33 @@ To apply this default layout, look at the `<Router>` component in `App.razor`. N
         }
     </ul>
 </div>
+```
 
-https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/02-customize-a-pizza.md
+### Event handling
+When the user clicks a card, a dialog should pop up to allow the user to customise their pizza and add it to their order.
+
+To handle DOM UI events in a Blazor app, you specify which event you want to handle using the corresponding HTML attribute and then specify the C# delegate you want called. We'll be using the Pizza dialog box as an example.
+
+Step1: Add some additional fields for tracking the pizza being customised and whether the pizza customization dialog is visable.
+`List<PizzaSpecial> specials;` Declare a new list of "PizzaSepcial" called "specials"
+`Pizza configuringPizza;` Declare an new "Pizza" variable to be used for tracking the pizza being customised
+`bool showingConfigureDialog;` Declare a new boolean to show if the dialog is visable
+
+Step2: Create the method for handling when a pizza special is clicked. `special` is the input; `configuringPizza` is the pizza being customised; `Pizza` is a pre-defined class with properties `Id`, `DefaultSize` and `List<PizzaTopping`.
+```
+void ShowConfigurePizzaDialog(PizzaSpecial special)
+{
+    configuringPizza = new Pizza()
+    {
+        Special = special,
+        SpecialId = special.Id,
+        Size = Pizza.DefaultSize,
+        Toppings = new List<PizzaTopping>(),
+    };
+
+    showingConfigureDialog = true;
+}
+```
+
+Step 3: Assign the method in the click button. `ShowConfigurePizzaDialog(special)` being the method and `special` being the input
+`<li @onclick="@(() => ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">`
