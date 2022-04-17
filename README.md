@@ -46,28 +46,7 @@ Layouts are also `.razor` components in Blazor. They inherit from `LayoutCompone
 To apply this default layout, look at the `<Router>` component in `App.razor`. Notice that the `DefaultLayout` parameter determines the layout used for all pages unless this is overrided on a per-page basis by adding a directive such as `@layout SomeOtherLayout` at the top of any `.razor`
  page component.
  
- ## Useful example
-### A list of cards using `foreach` loop
-```
-<div class="main">
-    <ul class="pizza-cards">
-        @if (specials != null)
-        {
-            @foreach (var special in specials)
-            {
-                <li style="background-image: url('@special.ImageUrl')">
-                    <div class="pizza-info">
-                        <span class="title">@special.Name</span>
-                        @special.Description
-                        <span class="price">@special.GetFormattedBasePrice()</span>
-                    </div>
-                </li>
-            }
-        }
-    </ul>
-</div>
-```
-
+ 
 ### Event handling
 When the user clicks a card, a dialog should pop up to allow the user to customise their pizza and add it to their order.
 
@@ -96,3 +75,26 @@ void ShowConfigurePizzaDialog(PizzaSpecial special)
 
 Step 3: Assign the method in the click button. `ShowConfigurePizzaDialog(special)` being the method and `special` being the input
 `<li @onclick="@(() => ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">`
+ 
+ ## Useful example
+### A list of cards using `foreach` loop
+```
+<div class="main">
+    <ul class="pizza-cards">
+        @if (specials != null)
+        {
+            @foreach (var special in specials)
+            {
+                <li style="background-image: url('@special.ImageUrl')">
+                    <div class="pizza-info">
+                        <span class="title">@special.Name</span>
+                        @special.Description
+                        <span class="price">@special.GetFormattedBasePrice()</span>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+</div>
+```
+
